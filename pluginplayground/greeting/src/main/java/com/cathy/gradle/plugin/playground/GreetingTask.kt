@@ -18,6 +18,6 @@ abstract class GreetingTask : DefaultTask() {
     @TaskAction
     fun greet() {
         val w = who.getOrElse("there")
-        println("Hi $w!!!")
+        println("\nHi $w~\n")
     }
 }

@@ -18,7 +18,7 @@ class GreetingPlugin : Plugin<Project> {
             }
 
             // assemble task
-            val assembleTaskName = "assemble"
+            val assembleTaskName = "assembleDebug"
             val assembleTask = proj.tasks.findByName(assembleTaskName) ?: throw kotlin.IllegalStateException("Can not find $assembleTaskName")
             assembleTask.dependsOn(task)
         }
