@@ -2,11 +2,21 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.cathy.plugin.greeting'
+    id 'com.cathy.plugin.build.versioning'
 }
 
 greeting {
     who "japser"
 }
+
+buildVersioning {
+    codeOptions {
+        versionCodeType 'GIT_COMMIT_COUNT'
+    }
+}
+
+def appVersionCode = buildVersioning.versionCode
+
 
 android {
     namespace 'com.cathy.gradle.playground'
@@ -16,7 +26,7 @@ android {
         applicationId "com.cathy.gradle.playground"
         minSdk 21
         targetSdk 32
-        versionCode 1
+        versionCode appVersionCode
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

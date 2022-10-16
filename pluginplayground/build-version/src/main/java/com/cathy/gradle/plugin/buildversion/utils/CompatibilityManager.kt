@@ -1,0 +1,56 @@
+package com.cathy.gradle.plugin.buildversion.utils
+
+import org.gradle.api.GradleException
+import org.gradle.api.JavaVersion
+import org.gradle.api.Project
+import org.gradle.api.artifacts.Dependency
+import org.gradle.util.GradleVersion
+
+fun checkAndroidGradleVersion(project: Project) {
+    val androidGradlePlugin = getAndroidPlugin(project)
+    if (androidGradlePlugin == null) {
+        throw IllegalStateException(
+            "The Android Gradle plugin not found. " +
+                "gradle-advanced-build-version only works with Android gradle library."
+        )
+    } else if (!checkAndroidVersion(androidGradlePlugin.version)) {
+        throw GradleException("gradle-advanced-build-version does not support Android Gradle plugin ${androidGradlePlugin.version}")
+    } else if (!project.plugins.hasPlugin("com.android.application")) {
+        throw GradleException("gradle-advanced-build-version only works with android application modules")
+    }
+}
+
+fun checkMinimumGradleVersion() {
+    if (GRADLE_MIN_VERSION > GradleVersion.current()) {
+        throw GradleException("\"gradle-advanced-build-version\" plugin requires at least minimum version $GRADLE_MIN_VERSION. Detected version ${GradleVersion.current()}.")
+    }
+}
+
+fun checkJavaRuntimeVersion() {
+    if (JavaVersion.current() < JavaVersion.VERSION_11) {
+        throw GradleException("\"gradle-advanced-build-version\" plugin requires this build to run with Java 11+")
+    }
+}
+
+private fun checkAndroidVersion(version: String?) =
+    listOf("7.").any { version?.startsWith(it) ?: false }
+
+fun getAndroidPlugin(project: Project): Dependency? =
+    findClassPathDependencyVersion(
+        project,
+        ANDROID_GRADLE_PLUGIN_GROUP,
+        ANDROID_GRADLE_PLUGIN_ATTRIBUTE_ID
+    ) ?: findClassPathDependencyVersion(
+        project.rootProject,
+        ANDROID_GRADLE_PLUGIN_GROUP,
+        ANDROID_GRADLE_PLUGIN_ATTRIBUTE_ID
+    )
+
+private fun findClassPathDependencyVersion(project: Project, group: String, attributeId: String) =
+    project.buildscript.configurations.getByName("classpath").dependencies.find {
+        group == it.group && it.name == attributeId
+    }
+
+internal val GRADLE_MIN_VERSION: GradleVersion = GradleVersion.version("7.0.0")
+internal const val ANDROID_GRADLE_PLUGIN_GROUP = "com.android.tools.build"
+internal const val ANDROID_GRADLE_PLUGIN_ATTRIBUTE_ID = "gradle"

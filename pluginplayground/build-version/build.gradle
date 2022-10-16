@@ -1,0 +1,23 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'org.jetbrains.kotlin.jvm' version "1.7.20"
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+gradlePlugin {
+    plugins {
+        create("buildVersioning") {
+            id = "com.cathy.plugin.build.versioning"
+            implementationClass = "com.cathy.gradle.plugin.buildversion.AdvancedBuildVersionPlugin"
+        }
+    }
+}
+
+dependencies {
+    implementation "com.android.tools.build:gradle:7.0.2"
+    implementation "org.eclipse.jgit:org.eclipse.jgit:5.7.0.202003110725-r"
+}

@@ -19,5 +19,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "gradle-plugin-playground"
 include ':app'
-//includeBuild 'pluginplayground/greeting'
 includeBuild("./pluginplayground/greeting")
+includeBuild("./pluginplayground/build-version")
