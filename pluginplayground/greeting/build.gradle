@@ -1,0 +1,17 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+gradlePlugin {
+    plugins {
+        greeting {
+            id = "com.cathy.plugin.greeting"
+            implementationClass = "com.cathy.gradle.plugin.playground.GreetingPlugin"
+        }
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}

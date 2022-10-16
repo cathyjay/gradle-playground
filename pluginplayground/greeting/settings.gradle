@@ -4,10 +4,8 @@ pluginManagement {
         google()
         mavenCentral()
     }
-
     plugins {
-        id "org.jetbrains.kotlin.jvm" version "1.7.20"
-        id "org.jetbrains.kotlin.android" version "1.7.20"
+        id "org.jetbrains.kotlin.jvm" version "1.7.20" apply false
     }
 }
 dependencyResolutionManagement {
@@ -17,7 +15,4 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "gradle-plugin-playground"
-include ':app'
-//includeBuild 'pluginplayground/greeting'
-includeBuild("./pluginplayground/greeting")
+rootProject.name = "greeting"
